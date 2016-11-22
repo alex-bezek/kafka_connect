@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "kafka_connect"
+require 'bundler/setup'
+require 'byebug'
+require 'kafka_connect'
 
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
+require 'pry'
 
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
+client = KafkaConnect::Client.new do |c|
+  c.base_uri = 'http://127.0.0.1:8083'
+end
+puts "Generated Client: #{client.inspect}"
 
-require "irb"
-IRB.start
+Pry.start
