@@ -2,6 +2,7 @@ require 'kafka_connect/base'
 
 module KafkaConnect
   class Connector < Base
+    attr_reader :name
 
     def initialize(client, attributes = {})
       @name = attributes.delete :name
