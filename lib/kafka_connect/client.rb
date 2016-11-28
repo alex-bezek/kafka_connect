@@ -21,22 +21,15 @@ module KafkaConnect
         instance_variable_set("@#{key}", value)
       end
       yield(self) if block_given?
-      # @connection = Faraday.new(url: @base_uri, headers: default_headers, ssl: { verify: true}) do |builder|
-      #   builder.use FaradayMiddleware::ParseJson, content_type: /\bjson$/
-      #   # Currently the API does not use redirects (statuses in the 300 range), but the
-      #   # use of these codes is reserved for future use so clients should handle them.
-      #   # http://docs.confluent.io/2.0.0/connect/userguide.html
-      #   builder.use FaradayMiddleware::FollowRedirects
-      #   builder.use KafkaConnect::Middleware::RaiseHttpException
-      #   builder.adapter Faraday.default_adapter
-      # end
-      @connection = Faraday.new do |builder|
-        builder.response :json
-        builder.adapter :test, Faraday::Adapter::Test::Stubs.new do |stub|
-          stub.get('/connectors') { |_env| [200, {}, ['connector1', 'connector2', 'connector3']] }
-        end
+      @connection = Faraday.new(url: @base_uri, headers: default_headers, ssl: { verify: true}) do |builder|
+        builder.use FaradayMiddleware::ParseJson, content_type: /\bjson$/
+        # Currently the API does not use redirects (statuses in the 300 range), but the
+        # use of these codes is reserved for future use so clients should handle them.
+        # http://docs.confluent.io/2.0.0/connect/userguide.html
+        builder.use FaradayMiddleware::FollowRedirects
+        builder.use KafkaConnect::Middleware::RaiseHttpException
+        builder.adapter Faraday.default_adapter
       end
-
     end
 
     private
