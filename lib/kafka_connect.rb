@@ -1,5 +1,5 @@
-require "kafka_connect/version"
-
-module KafkaConnect
-  # Your code goes here...
-end
+require 'kafka_connect/connector'
+require 'kafka_connect/config'
+require 'kafka_connect/task'
+require 'kafka_connect/version'
+require 'kafka_connect/client'
